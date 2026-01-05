@@ -36,7 +36,6 @@ def create_product(product:ProductCreate):
 @app.get('/', response_model=list[Product])
 def get_products():
     try:
-        getproductserror
         return products
     
     except Exception as e:
@@ -48,7 +47,6 @@ def get_products():
 @app.get('/{id}', response_model=Product)
 def get_product(id:int):
     try:
-        getproducterror
         product = fetch_product(id)
         if not product:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Product not found')
@@ -62,7 +60,6 @@ def get_product(id:int):
 @app.put('/id', status_code=status.HTTP_202_ACCEPTED, response_model=Product)
 def update_product(id:int, product_update:ProductUpdate):
     try:
-        updateproducterror
         product = fetch_product(id)
         
         if not product:
@@ -89,7 +86,6 @@ def update_product(id:int, product_update:ProductUpdate):
 @app.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
 def delete_product(id:int):
     try:
-        deleteproducterror
         product = fetch_product(id)
         if not product:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Product not found')
