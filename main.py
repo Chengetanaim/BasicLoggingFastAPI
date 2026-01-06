@@ -3,11 +3,24 @@ import logging
 
 from app.schemas import Product, ProductCreate, ProductUpdate
 
-app = FastAPI()
-
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
-logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+# file_handler = logging.FileHandler('app.log')
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+# file_handler.setLevel(logging.ERROR)
+# file_handler.setFormatter(formatter)
+
+# logger.addHandler(file_handler)
+logger.addHandler(stream_handler)
+
+
+# logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+app = FastAPI()
 
 products = []
 
@@ -29,7 +42,7 @@ def create_product(product:ProductCreate):
         return product
     
     except Exception as e:
-        logger.error(f'An unexpexted error occured while creating the product, {str(e)}')
+        logger.exception(f'An unexpexted error occured while creating the product, {str(e)}')
     raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail='An unexpexted error occured while creating the product')
 
 
